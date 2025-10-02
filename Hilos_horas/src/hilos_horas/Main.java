@@ -11,7 +11,7 @@ public class Main{
         //parte de codigo para la interfaz
         Interfaz inter= new Interfaz();
         inter.setVisible(true);
-        inter.setLocationRelativeTo(null);//centralizado
+        inter.setLocationRelativeTo(null);//para centralizar valores 
         
         
         // Crear los hilos
