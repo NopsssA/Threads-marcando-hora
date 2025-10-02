@@ -1,99 +1,140 @@
 package hilos_horas;
 
-public class Interfaz extends javax.swing.JFrame {
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Interfaz extends JFrame {
+    private JLabel label;
+    private JButton button;
+    private JTextArea areaTexto;
     
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel1.setBackground(new java.awt.Color(255, 203, 193));
-
-        jLabel1.setFont(new java.awt.Font("Felix Titling", 0, 14)); // NOI18N
-        jLabel1.setText("Trabajando Horas");
-
-        jLabel2.setFont(new java.awt.Font("Segoe Print", 0, 12)); // NOI18N
-        jLabel2.setText("Presione el boton para ejecutar");
-
-        jButton1.setText("Ejecutar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+    public Interfaz() {
+        // Configurar la ventana
+        setTitle("Ejecución de Hilos");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 300);
+        setLayout(new BorderLayout());
+        
+        // Establecer color de fondo claro
+        getContentPane().setBackground(new Color(240, 240, 240)); // Gris claro
+        
+        // Crear los TRES elementos principales
+        label = new JLabel("Presiona para ejecutar :3", SwingConstants.CENTER);
+        button = new JButton("Ejecuta"); // Nombre cambiado a "Ejecuta"
+        areaTexto = new JTextArea();
+        areaTexto.setEdatable(false);
+        
+        // Configurar colores para los componentes
+        label.setBackground(new Color(250, 250, 250)); // Fondo más claro para el label
+        label.setOpaque(true);
+        
+        button.setBackground(new Color(200, 230, 255)); // Azul claro para el botón
+        button.setFocusPainted(false);
+        
+        areaTexto.setBackground(new Color(255, 255, 255)); // Fondo blanco para el área de texto
+        areaTexto.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200))); // Borde suave
+        
+        // Configurar fuente y estilo
+        Font fuenteLabel = new Font("Arial", Font.BOLD, 14);
+        label.setFont(fuenteLabel);
+        
+        Font fuenteBoton = new Font("Arial", Font.PLAIN, 12);
+        button.setFont(fuenteBoton);
+        
+        Font fuenteArea = new Font("Consolas", Font.PLAIN, 12);
+        areaTexto.setFont(fuenteArea);
+        
+        // Configurar el área de texto con scroll
+        JScrollPane scrollPane = new JScrollPane(areaTexto);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // Margen interno
+        
+        // Panel superior con label y botón
+        JPanel panelSuperior = new JPanel(new BorderLayout());
+        panelSuperior.setBackground(new Color(240, 240, 240)); // Mismo color de fondo
+        panelSuperior.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Margen
+        panelSuperior.add(label, BorderLayout.CENTER);
+        panelSuperior.add(button, BorderLayout.EAST);
+        
+        // Agregar componentes a la ventana
+        add(panelSuperior, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
+        
+        // Configurar el action listener del botón
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                iniciarEjecucion();
             }
         });
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(117, 117, 117)
-                .addComponent(jLabel1)
-                .addContainerGap(148, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(jButton1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel1)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(74, 74, 74)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(25, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    // End of variables declaration//GEN-END:variables
+    }
+    
+    private void iniciarEjecucion() {
+        // Deshabilitar el botón mientras se ejecuta
+        button.setEnabled(false);
+        button.setBackground(new Color(180, 180, 180)); // Gris cuando está deshabilitado
+        label.setText("Ejecutando... :3");
+        
+        // Limpiar el área de texto
+        areaTexto.setText("");
+        
+        // Usar un hilo separado para ejecutar la lógica de Main
+        Thread hiloEjecucion = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // Redirigir la salida estándar al JTextArea
+                RedireccionadorSalida redireccionador = new Redireccionador(areaTexto);
+                System.setOut(redireccionador);
+                
+                // Ejecutar la lógica principal
+                Main.iniciarEjecucion();
+                
+                // Restaurar la interfaz cuando termine
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        button.setEnabled(true);
+                        button.setBackground(new Color(200, 230, 255)); // Volver al color original
+                        label.setText("Presiona para ejecutar :3");
+                    }
+                });
+            }
+        });
+        hiloEjecucion.start();
+    }
+    
+    // Clase interna para redirigir System.out al JTextArea
+    private static class Redireccionador extends java.io.PrintStream {
+        private JTextArea textArea;
+        
+        public Redireccionador(JTextArea textArea) {
+            super(System.out);
+            this.textArea = textArea;
+        }
+        
+        @Override
+        public void println(String x) {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    textArea.append(x + "\n");
+                    // Hacer scroll automático al final
+                    textArea.setCaretPosition(textArea.getDocument().getLength());
+                }
+            });
+        }
+        
+        @Override
+        public void print(String x) {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    textArea.append(x);
+                    // Hacer scroll automático al final
+                    textArea.setCaretPosition(textArea.getDocument().getLength());
+                }
+            });
+        }
+    }
 }
