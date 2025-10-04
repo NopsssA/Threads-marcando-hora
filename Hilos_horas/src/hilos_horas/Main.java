@@ -1,18 +1,19 @@
 package hilos_horas;
 
-//Importaciones necesarias
-import java.time.LocalTime; //imprime la hora sin fecha
-import java.time.format.DateTimeFormatter;//formatea y parsea la hora
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
-public class Main{
+public class Main {
     private static volatile boolean ejecucion = true;
+    private static Interfaz interfaz;
 
-    public static void main(String[] args) {
-        //parte de codigo para la interfaz
-        Interfaz inter= new Interfaz();
-        inter.setVisible(true);
-        inter.setLocationRelativeTo(null);//para centralizar valores 
-        
+    public static void setInterfaz(Interfaz inter) {
+        interfaz = inter;
+    }
+
+    public static void iniciarProceso() {
+        // Reiniciar la bandera de ejecución
+        ejecucion = true;
         
         // Crear los hilos
         Thread hiloHora = new Thread(new MostrarHora());
@@ -22,25 +23,32 @@ public class Main{
         hiloHora.start();
         hiloTrabajo.start();
 
-        // Ejecutar durante 1 minuto (60 segundos)
-        try {
-            Thread.sleep(60000); // 60,000 ms = 1 minuto
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        // Timer para detener después de 1 minuto
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    Thread.sleep(60000);
+                    ejecucion = false;
+                    
+                    hiloHora.join();
+                    hiloTrabajo.join();
+                    
+                    enviarTexto("\nPrograma terminado, paso 1 minuto.");
+                } catch (InterruptedException e) {
+                    enviarTexto("Error: " + e.getMessage());
+                }
+            }
+        }).start();
+    }
+
+    private static void enviarTexto(String texto) {
+        if (interfaz != null) {
+            javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    interfaz.agregarTexto(texto);
+                }
+            });
         }
-
-        // Detener la ejecución
-        ejecucion = false;
-
-        // Esperar a que los hilos terminen
-        try {
-            hiloHora.join();
-            hiloTrabajo.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("/nPrograma terminado, paso 1 minuto.");
     }
 
     // Hilo para mostrar la hora cada 6 segundos
@@ -50,15 +58,13 @@ public class Main{
         @Override
         public void run() {
             while (ejecucion) {
-                // Obtener y mostrar la hora actual
                 String horaActual = LocalTime.now().format(formatter);
-                System.out.println("Hora actual: " + horaActual);
+                enviarTexto("Hora actual: " + horaActual);
                 
                 try {
-                    // Esperar 6 segundos (5 segundos de trabajo + 1 segundo)
                     Thread.sleep(6000);
                 } catch (InterruptedException e) {
-                    System.out.println("Hilo de hora interrumpido");
+                    enviarTexto("Hilo de hora interrumpido");
                     break;
                 }
             }
@@ -70,25 +76,30 @@ public class Main{
         @Override
         public void run() {
             while (ejecucion) {
-                // Esperar 1 segundo después de que se muestre la hora
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    System.out.println("Hilo de trabajo interrumpido");
+                    enviarTexto("Hilo de trabajo interrumpido");
                     break;
                 }
                 
-                // Mostrar "trabajando" 5 veces seguidas
                 for (int i = 0; i < 5 && ejecucion; i++) {
-                    System.out.println("Chambeando");
+                    enviarTexto("Chambeando");
                     try {
-                        Thread.sleep(1000); // 1 segundo entre cada "trabajando"
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
-                        System.out.println("Hilo de trabajo interrumpido");
+                        enviarTexto("Hilo de trabajo interrumpido");
                         break;
                     }
                 }
             }
         }
     }
+    public static void main(String[] args) {
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            new Interfaz().setVisible(true);
+        }
+    });
+}
 }
